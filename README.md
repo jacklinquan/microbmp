@@ -1,7 +1,9 @@
 # microbmp
 [![PyPI version](https://badge.fury.io/py/microbmp.svg)](https://badge.fury.io/py/microbmp) [![Downloads](https://pepy.tech/badge/microbmp)](https://pepy.tech/project/microbmp)
 
- A simple python package for loading and saving BMP image.
+A simple python package for loading and saving BMP image.
+ 
+It works under both CPython and MicroPython. Only uncompressed 24-bit color depth is supported.
 
 Please consider [![Paypal Donate](https://github.com/jacklinquan/images/blob/master/paypal_donate_button_200x80.png)](https://www.paypal.me/jacklinquan) to support me.
 
