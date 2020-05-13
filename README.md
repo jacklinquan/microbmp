@@ -3,7 +3,14 @@
 
 A simple python package for loading and saving BMP image.
  
-It works under both CPython and MicroPython. Only uncompressed 24-bit color depth is supported.
+It works under both CPython and MicroPython. BMP image of 1/2/4/8/24-bit color depth is supported.
+
+Loading supports compression method:
+- 0(BI_RGB, no compression)
+- 1(BI_RLE8, RLE 8-bit/pixel)
+- 2(BI_RLE4, RLE 4-bit/pixel)
+
+Saving only supports compression method 0(BI_RGB, no compression).
 
 Please consider [![Paypal Donate](https://github.com/jacklinquan/images/blob/master/paypal_donate_button_200x80.png)](https://www.paypal.me/jacklinquan) to support me.
 
@@ -11,32 +18,30 @@ Please consider [![Paypal Donate](https://github.com/jacklinquan/images/blob/mas
 `pip install microbmp`
 
 ## Usage
-```
->>> import microbmp
->>> # Create a 2(width) by 3(height) image. Pixel: img[x][y] = [r,g,b].
-...
->>> img=[[[255,0,0],[0,255,0],[0,0,255]],[[255,255,0],[255,0,255],[0,255,255]]]
->>> # Save the image.
-...
->>> microbmp.save_bmp_file('test.bmp', img)
->>> # Load the image.
-...
->>> new_img = microbmp.load_bmp_file('test.bmp')
->>> new_img
-[[[255, 0, 0], [0, 255, 0], [0, 0, 255]], [[255, 255, 0], [255, 0, 255], [0, 255, 255]]]
->>> import io
->>> bytesio = io.BytesIO()
->>> # Write bmp into BytesIO.
-...
->>> microbmp.write_bmp(bytesio, img)
->>> bytesio.flush()
->>> bytesio.tell()
-78
->>> bytesio.seek(0)
-0
->>> bytesio.read()
-b'BMN\x00\x00\x00\x00\x00\x00\x006\x00\x00\x00(\x00\x00\x00\x02\x00\x00\x00\x03'
-b'\x00\x00\x00\x01\x00\x18\x00\x00\x00\x00\x00\x18\x00\x00\x00\x00\x00\x00\x00'
-b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\x00\x00\xff\xff\x00\x00'
-b'\x00\x00\xff\x00\xff\x00\xff\x00\x00\x00\x00\xff\x00\xff\xff\x00\x00'
+```Python
+>>> from microbmp import MicroBMP
+>>> img_24b = MicroBMP(2, 2, 24) # Create a 2(width) by 2(height) 24-bit image.
+>>> img_24b.palette # 24-bit image has no palette.
+>>> img_24b.pixels # img_24b.pixels[x][y] = [r, g, b]
+[[[0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0]]]
+>>> img_24b.pixels = [[[0,0,255], [255,0,0]], [[0,255,0], [255,255,255]]]
+>>> img_24b.save('img_24b.bmp')
+70
+>>> new_img_24b = MicroBMP().load('img_24b.bmp')
+>>> new_img_24b.palette
+>>> new_img_24b.pixels
+[[[0, 0, 255], [255, 0, 0]], [[0, 255, 0], [255, 255, 255]]]
+>>> img_1b = MicroBMP(3, 2, 1) # Create a 3(width) by 2(height) 1-bit image.
+>>> img_1b.palette # img_1b.palette[index] = [r, g, b]
+[[0, 0, 0], [255, 255, 255]]
+>>> img_1b.pixels # img_1b.pixels[x][y] = index
+[[0, 0], [0, 0], [0, 0]]
+>>> img_1b.pixels = [[0, 0], [1, 1], [0, 1]]
+>>> img_1b.save('img_1b.bmp')
+70
+>>> new_img_1b = MicroBMP().load('img_1b.bmp')
+>>> new_img_1b.palette
+[[0, 0, 0], [255, 255, 255]]
+>>> new_img_1b.pixels
+[[0, 0], [1, 1], [0, 1]]
 ```
