@@ -1,0 +1,19 @@
+site_name: microbmp
+site_description: A small Python module for BMP image processing.
+site_author: Quan Lin
+
+repo_url: https://github.com/jacklinquan/microbmp
+edit_uri: ""
+
+theme:
+    name: readthedocs
+
+nav:
+    - Home: index.md
+    - API Domumentation: api.md
+
+copyright: Copyright &copy; 2021 <a href="https://github.com/jacklinquan">Quan Lin</a>.
+
+plugins:
+    - search
+    - mkapi

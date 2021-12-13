@@ -2,8 +2,8 @@ from setuptools import setup
 
 setup(
     name="microbmp",
-    version="0.2.0",
-    description="A simple python package for loading and saving BMP image.",
+    version="0.3.0",
+    description="A small Python module for BMP image processing.",
     long_description="https://github.com/jacklinquan/microbmp",
     long_description_content_type="text/markdown",
     url="https://github.com/jacklinquan/microbmp",
